@@ -1,0 +1,46 @@
+<DndProvider backend={HTML5Backend}>
+    <div className="App">
+      {questions[currentQuestion].type === 'match' ? (
+        <>
+          {renderMatchQuestion()}
+          <LineDrawer lines={lines} />
+          <button onClick={handleNextQuestion}>Submit Answer</button>
+        </>
+      ) : (
+        <>
+          <div className="question">
+            <div className="question-count">Question {currentQuestion + 1}</div>
+            <div className="question-text">
+              {questions[currentQuestion].questionText}
+            </div>
+          </div>
+          <div className="answer">
+            {questions[currentQuestion].answerOptions.map((ans, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  handleAnswerOptionClick(index, ans.isCorrect);
+                }}
+              >
+                {ans.answerText}
+              </button>
+            ))}
+
+            {questions[currentQuestion].multipleCorrect && (
+              <button onClick={handleNextQuestion}>Submit Answer</button>
+            )}
+            {questions[currentQuestion].type === 'fillInBlank' && (
+              <div>
+                <input
+                  type="text"
+                  onChange={(e) => handleInputChange(e)}
+                  placeholder="Enter your answer"
+                />
+                <button onClick={handleNextQuestion}>Submit Answer</button>
+              </div>
+            )}
+          </div>
+        </>
+      )}
+    </div>
+  </DndProvider>
